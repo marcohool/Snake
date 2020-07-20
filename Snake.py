@@ -1,15 +1,20 @@
+import math
+
 import pygame
 import sys
 
 
 class Square:
+    global sqaureSize
+    sqaureSize = 40
+
     def __init__(self, x, y):
         self.x = x
         self.y = y
         self.rect = pygame.Rect
 
     def draw(self):
-        self.rect = pygame.Rect(self.x, self.y, 25, 25)
+        self.rect = self.x, self.y, sqaureSize, sqaureSize
         pygame.draw.rect(screen, (255, 0, 0), self.rect, 0)
 
 
@@ -26,19 +31,17 @@ class Snake:
 
 def drawScreen():
     screen.fill((0, 0, 0))
-    Snake.draw(Snake(20, 20))
+    Snake.draw(Snake(math.floor(screenWidth / 2 - (sqaureSize / 2)), math.floor(screenHeight / 2 - (sqaureSize / 2))))
     pygame.display.update()
 
 
-
-
 def main():
-    global screen
+    global screen, screenWidth, screenHeight
 
-    screen_width = 1280
-    screen_height = 720
+    screenWidth = 1280
+    screenHeight = 720
 
-    screen = pygame.display.set_mode((screen_width, screen_height))
+    screen = pygame.display.set_mode((screenWidth, screenHeight))
 
     clock = pygame.time.Clock()
 
