@@ -18,6 +18,14 @@ class Square:
 
     def move(self, vector):
         self.rect.move_ip(vector.x, vector.y)
+        if self.rect.y > screenHeight-squareSize:
+            self.rect.y = 0
+        if self.rect.x > screenWidth-squareSize:
+            self.rect.x = 0
+        if self.rect.y < 0:
+            self.rect.y = screenHeight
+        if self.rect.x < 0:
+            self.rect.x = screenWidth
 
 
 class Snake:
@@ -69,12 +77,12 @@ def main():
     screenHeight = 720
 
     screen = pygame.display.set_mode((screenWidth, screenHeight))
-    snake = Snake(math.floor(screenWidth / 2 - (squareSize / 2)), math.floor(screenHeight / 2 - (squareSize / 2)))
+    snake = Snake(math.floor(screenWidth / 2 - squareSize), math.floor(screenHeight / 2 - squareSize))
 
     clock = pygame.time.Clock()
 
     while True:
-        pygame.time.delay(90)
+        pygame.time.delay(59)
         clock.tick(60)
         Snake.move(snake)
         drawScreen()
