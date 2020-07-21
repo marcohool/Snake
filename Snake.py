@@ -11,11 +11,13 @@ class Square:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-        self.rect = pygame.Rect
+        self.rect = pygame.Rect(self.x, self.y, squareSize, squareSize)
 
     def draw(self):
-        self.rect = self.x, self.y, squareSize, squareSize
         pygame.draw.rect(screen, (255, 0, 0), self.rect, 0)
+
+    def move(self, vector):
+        self.rect.move_ip(vector.x, vector.y)
 
 
 class Snake:
@@ -35,19 +37,21 @@ class Snake:
                 pygame.quit()
                 sys.exit()
 
-            keys = pygame.key.get_pressed()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_w or event.type == pygame.K_UP:
+                    if move != (0, squareSize):
+                        move[:] = 0, -squareSize
+                elif event.key == pygame.K_s or event.type == pygame.K_DOWN:
+                    if move != (0, -squareSize):
+                        move[:] = 0, squareSize
+                elif event.key == pygame.K_d or event.type == pygame.K_RIGHT:
+                    if move != (-squareSize, 0):
+                        move[:] = squareSize, 0
+                elif event.key == pygame.K_a or event.type == pygame.K_LEFT:
+                    if move != (squareSize, 0):
+                        move[:] = -squareSize, 0
 
-            for _ in keys:
-                if keys[pygame.K_w] or keys[pygame.K_UP]:
-                    pass
-                elif keys[pygame.K_s or keys[pygame.K_DOWN]]:
-                    pass
-                elif keys[pygame.K_d] or keys[pygame.K_RIGHT]:
-                    pass
-                elif keys[pygame.K_a] or keys[pygame.K_LEFT]:
-                    pass
-
-            snake.move()
+        self.head.move(move)
 
 
 def drawScreen():
@@ -57,7 +61,9 @@ def drawScreen():
 
 
 def main():
-    global screen, screenWidth, screenHeight, snake
+    global screen, screenWidth, screenHeight, snake, move
+
+    move = pygame.Vector2()
 
     screenWidth = 1280
     screenHeight = 720
@@ -68,8 +74,8 @@ def main():
     clock = pygame.time.Clock()
 
     while True:
-        pygame.time.delay(50)
-        clock.tick(10)
+        pygame.time.delay(90)
+        clock.tick(60)
         Snake.move(snake)
         drawScreen()
 
