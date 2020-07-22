@@ -70,15 +70,13 @@ class Snake:
                     if moveCoords != (squareSize, 0):
                         moveCoords[:] = -squareSize, 0
 
-
-
         if self.head.getCoords() == food.Square.getCoords():  # Food eaten
             food.respawnFood()
             self.body.append(Square(self.head.rect.x, self.head.rect.y))
 
         for i in range(len(self.body) - 1, 0, -1):
-            self.body[i].rect.x = self.body[i-1].rect.x
-            self.body[i].rect.y = self.body[i-1].rect.y
+            self.body[i].rect.x = self.body[i - 1].rect.x
+            self.body[i].rect.y = self.body[i - 1].rect.y
 
         self.head.moveHead(moveCoords)
 
@@ -92,8 +90,18 @@ class Food:
 
     def respawnFood(self):
         coords = pygame.Vector2()
-        coords[:] = random.randint(0, (screenWidth - squareSize) / squareSize) * squareSize, random.randint(0, (screenHeight - squareSize) / squareSize) * squareSize
+        coords[:] = random.randint(0, (screenWidth - squareSize) / squareSize) * squareSize, random.randint(0, (
+                screenHeight - squareSize) / squareSize) * squareSize
         self.Square.setCoords(coords)
+
+
+def collision():
+    if len(snake.body) > 1:
+        for i in range(1, len(snake.body)):
+            if snake.head.getCoords() == snake.body[i].getCoords():
+                return True
+
+    return False
 
 
 def drawScreen():
@@ -123,6 +131,8 @@ def main():
         clock.tick(60)
         Snake.move(snake)
         drawScreen()
-
+        if collision():
+            pygame.quit()
+            sys.exit()
 
 main()
