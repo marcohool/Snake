@@ -59,15 +59,19 @@ class Snake:
                 if event.key == pygame.K_w or event.type == pygame.K_UP:
                     if moveCoords != (0, squareSize):
                         moveCoords[:] = 0, -squareSize
+                        break
                 elif event.key == pygame.K_s or event.type == pygame.K_DOWN:
                     if moveCoords != (0, -squareSize):
                         moveCoords[:] = 0, squareSize
+                        break
                 elif event.key == pygame.K_d or event.type == pygame.K_RIGHT:
                     if moveCoords != (-squareSize, 0):
                         moveCoords[:] = squareSize, 0
+                        break
                 elif event.key == pygame.K_a or event.type == pygame.K_LEFT:
                     if moveCoords != (squareSize, 0):
                         moveCoords[:] = -squareSize, 0
+                        break
 
         if self.head.getCoords() == food.Square.getCoords():  # Food eaten
             food.respawnFood()
