@@ -1,8 +1,7 @@
 import math
-import random
 import pygame
 import sys
-
+import random
 
 class Square:
     global squareSize
